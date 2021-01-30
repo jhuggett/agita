@@ -1,0 +1,14 @@
+{
+  "name": "agita",
+  "version": "1.0.0",
+  "main": "bin/index.js",
+  "author": "Joel Huggett",
+  "license": "MIT",
+  "bin": {
+    "agita": "./bin/index"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.25",
+    "typescript": "^3.9.7"
+  }
+}
