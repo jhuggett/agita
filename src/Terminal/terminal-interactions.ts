@@ -1,13 +1,18 @@
 import Color from "./color"
 import Decorate from "./decoration"
+import CursorMovement from "./cursor-move"
+import { Terminal } from "."
 
 
 export class Interactions {
 
-  color = new Color()
-  decorate = new Decorate()
+    constructor(private t: Terminal) {}
 
-  reactToKeyPress = async (callback?: (code: Buffer) => boolean) : Promise<Buffer> => {
+    color = new Color()
+    decorate = new Decorate()
+    moveCursor = new CursorMovement(this.t)
+
+    reactToKeyPress = async (callback?: (code: Buffer) => boolean) : Promise<Buffer> => {
     process.stdin.setRawMode(true)
     process.stdin.resume()
 
@@ -19,63 +24,90 @@ export class Interactions {
                 this.reactToKeyPress(callback)
             }
             resolve(data)
+            })
         })
-    })
-}
-  
-  newLine = () => {
-      this.write("\n")
-      this.return()
-  }
+    }
 
-  return = () => {
-      this.write("\r")
-  }
+    moveCursorToBottom = () : Interactions => {
+        this.moveCursor.moveTo(0, this.getHeight())
+        return this
+    }
 
-  writeOnNewLine = (content) => {
-      this.newLine()
-      this.write(content)
-  }
+    newLine = () : Interactions => {
+        this.write("\n")
+        this.return()
+        
+        return this
+    }
 
-  writeWithNewLine = (content) => {
-      this.write(content)
-      this.newLine()
-  }
+    return = () : Interactions => {
+        this.write("\r")
+        
+        return this
+    }
 
-  write = (content) => {
-      process.stdout.write(content)
-  }
+    writeOnNewLine = (content) : Interactions => {
+        this.newLine()
+        this.write(content)
+        
+        return this
+    }
 
-  clear = () => {
-      process.stdout.write("\033[2J")
-      this.write("\033[H")
-  }
+    writeWithNewLine = (content) : Interactions => {
+        this.write(content)
+        this.newLine()
+        
+        return this
+    }
 
-  clearLine = () => {
-      this.write("\u001b[2K")
-  }
+    write = (content) : Interactions => {
+        process.stdout.write(content)
+        
+        return this
+    }
 
-  hideCaret = () => {
-      process.stderr.write("\u001B[?25l")
-  }
+    clear = () : Interactions => {
+        process.stdout.write("\033[2J")
+        this.write("\033[H")
+        
+        return this
+    }
 
-  saveCursorSpot = () => {
-      process.stderr.write("\u001B[s")
-  }
+    clearLine = () : Interactions => {
+        this.write("\u001b[2K")
+        
+        return this
+    }
 
-  restoreCursorSpot = () => {
-      process.stderr.write("\u001B[u")
-  }
+    hideCaret = () : Interactions => {
+        process.stderr.write("\u001B[?25l")
+        
+        return this
+    }
 
-  showCaret = () => {
-      process.stderr.write("\u001B[?25h")
-  }
+    saveCursorSpot = () : Interactions => {
+        process.stderr.write("\u001B[s")
+        
+        return this
+    }
 
-  getWidth = () => {
-      return process.stdout.columns || 0
-  }
+    restoreCursorSpot = () : Interactions => {
+        process.stderr.write("\u001B[u")
+        
+        return this
+    }
 
-  getHeight = () => {
-      return process.stdout.rows || 0
-  }
+    showCaret = () : Interactions => {
+        process.stderr.write("\u001B[?25h")
+        
+        return this
+    }
+
+    getWidth = () => {
+        return process.stdout.columns || 0
+    }
+
+    getHeight = () => {
+        return process.stdout.rows || 0
+    }
 }

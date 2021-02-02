@@ -5,6 +5,8 @@ interface SelectListConfig extends UserInteractionConfig {
   text?: string
   options: string[]
   back?: string
+
+  onChange?: (response: SelectListResponse) => void
 }
 
 export interface SelectListResponse extends UserInteractionResponse {
@@ -41,7 +43,7 @@ export class SelectList implements UserInteractionView {
         68: { // left
           action: () => {
             if (this.config.back) {
-              this.selected = this.config.options.length
+              this.selected = this.config.options.length - 1
               return true
             }
           }
@@ -65,16 +67,31 @@ export class SelectList implements UserInteractionView {
     this.t.interactor.hideCaret()
     this.t.interactor.saveCursorSpot()
 
+    if (this.config.onChange) { // initial call of onChange
+      this.config.onChange({
+        selectedItem: this.config.options[this.selected],
+        index: this.config.back && this.selected == this.config.options.length ? -1 : this.selected 
+      })
+    }
+
     let response: SelectListResponse | null = null
     let reactResponse: ReactResponse | null = null
 
     while(!response) {
       if (!reactResponse || reactResponse.rerender) this.render()
       reactResponse = await this.react()
+
+      if (reactResponse.rerender && this.config.onChange) {
+        this.config.onChange({
+          selectedItem: this.config.options[this.selected],
+          index: this.config.back && this.selected == this.config.options.length ? -1 : this.selected 
+        })
+      }
+
       if (reactResponse.finished) {
         response = {
           selectedItem: this.config.options[this.selected],
-          index: this.config.back && this.selected == this.config.options.length ? -1 : this.selected 
+          index: this.config.back && this.selected == this.config.options.length - 1 ? -1 : this.selected 
         }
       }
     }

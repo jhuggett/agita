@@ -5,9 +5,9 @@ import { ViewStack } from "./view-stack";
 
 export class Terminal {
 
-  interactor = new Interactions()
+  interactor = new Interactions(this)
 
-  stack = new ViewStack()
+  // stack = new ViewStack()
 
 }
 
