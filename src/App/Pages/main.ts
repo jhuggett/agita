@@ -59,9 +59,31 @@ export class MainPage implements AppPage {
 
     this.t.interactor
     .clear()
-    .write('AGITA')
+    .write(
+      'Welcome to ' +
+      this.t.interactor.color.blue(
+        this.t.interactor.decorate.bold(
+          'AGITA'
+        )
+      )
+    )
+    .newLine()
+    .newLine()
+    .write(
+      'Loaded: ' + this.app.gitInfo.currentDirectory()
+    )
+    .newLine()
     .newLine()
     
+
+    if (!this.app.gitInfo.gitFolderPresent()) {
+      console.log('No .git folder present!');
+      console.log();
+
+      // route to page for getting started with git
+      
+    }
+
 
     const response = await this.pickList.run()
 

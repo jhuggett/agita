@@ -1,5 +1,6 @@
 import { GitCommand } from './git-command'
 import { AppPage } from './Pages'
+import { GitInfo } from '../Git Info'
 
 export class App {
 
@@ -7,6 +8,7 @@ export class App {
 
   gitCommand: GitCommand = new GitCommand()
 
+  gitInfo: GitInfo = new GitInfo()
 
   currentPage() : AppPage | null {
     return this.pageStack[this.pageStack.length - 1]
