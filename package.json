@@ -1,6 +1,6 @@
 {
   "name": "agita",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "main": "bin/index.js",
   "author": "Joel Huggett",
   "license": "MIT",

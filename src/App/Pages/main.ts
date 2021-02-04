@@ -3,6 +3,8 @@ import { App } from "../app";
 import { Terminal } from "../../Terminal";
 import { SelectList, SelectListResponse } from "../../Terminal/User Interactions/select-list";
 import { StatusPage } from './status'
+import { Input } from "../../Terminal/User Interactions/input";
+import { AddMainPage } from "./Add";
 
 export class MainPage implements AppPage {
 
@@ -22,6 +24,12 @@ export class MainPage implements AppPage {
       name: 'Status',
       function: {
         base: 'git status'
+      }
+    },
+    {
+      name: 'Add',
+      function: {
+        base: 'git add'
       }
     }
   ]
@@ -48,14 +56,14 @@ export class MainPage implements AppPage {
         .clearLine()
         .moveCursor.moveTo(0, 0)
       }
-
-      
     }
   }) 
   
   constructor (private app: App, private t: Terminal) {}
 
   async run() : Promise<AppPage | null> {
+
+    await this.app.gitCommand.alwaysUseColor()
 
     this.t.interactor
     .clear()
@@ -74,6 +82,9 @@ export class MainPage implements AppPage {
     )
     .newLine()
     .newLine()
+
+    // await (new Input(this.t, {})).run()
+    
     
 
     if (!this.app.gitInfo.gitFolderPresent()) {
@@ -93,6 +104,9 @@ export class MainPage implements AppPage {
       }
       case 0: {
         return new StatusPage(this.app, this.t)
+      }
+      case 1: {
+        return new AddMainPage(this.app, this.t)
       }
     }
 
