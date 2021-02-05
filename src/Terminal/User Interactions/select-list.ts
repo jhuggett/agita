@@ -103,20 +103,23 @@ export class SelectList implements UserInteractionView {
 
     this.t.interactor.restoreCursorSpot()
 
+
     if (this.config.text) this.t.interactor.writeWithNewLine(this.config.text)
     this.config.options.forEach( (option, index) => {
       if (index == this.selected) {
-        this.t.interactor.writeWithNewLine(
+        this.t.interactor.clearLine()
+        .write(
           this.t.interactor.color.green(
             this.t.interactor.decorate.bold(
               (this.config.back == option ? '<-- ' : '--> ') + option
             )
           )
-        )
+        ).newLine()
       } else {
-        this.t.interactor.writeWithNewLine(
+        this.t.interactor.clearLine()
+        .write(
           '    ' + option
-        )
+        ).newLine()
       }
     })
 

@@ -41,6 +41,11 @@ export class GitCommand {
     return this
   }
 
+  async alwaysUseColor() {
+    await this.push({ base: 'git config color.ui always --replace-all' }).execute()
+    this.clear()
+  }
+
   async execute() : Promise<GitCommandExecutionResult> {
     return new Promise((resolve, reject) => {
       exec(this.command(), (error, stdout, stderr) => {

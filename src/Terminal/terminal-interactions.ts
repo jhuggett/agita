@@ -110,4 +110,6 @@ export class Interactions {
     getHeight = () => {
         return process.stdout.rows || 0
     }
+
+    widthAndHeight = () => [this.getWidth(), this.getHeight()]
 }

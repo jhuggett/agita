@@ -5,6 +5,10 @@ interface RequestConfirmationConfig extends UserInteractionConfig {
   question: string
 }
 
+interface RequestConfirmationResponse extends UserInteractionResponse {
+  confirmed: boolean
+}
+
 export class RequestConfirmation implements UserInteractionView {
 
   options = [
@@ -67,11 +71,11 @@ export class RequestConfirmation implements UserInteractionView {
 
   constructor(private t: Terminal, config: RequestConfirmationConfig, ) { this.config = config }
 
-  async run() : Promise<UserInteractionResponse> {
+  async run() : Promise<RequestConfirmationResponse> {
     this.t.interactor.hideCaret()
     this.t.interactor.saveCursorSpot()
 
-    let response: UserInteractionResponse | null = null
+    let response: RequestConfirmationResponse | null = null
     let reactResponse: ReactResponse | null = null
 
     while (!response) {
