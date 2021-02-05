@@ -6,8 +6,7 @@ import { SelectList, SelectListResponse } from '../../../Terminal/User Interacti
 import { RequestConfirmation } from '../../../Terminal/User Interactions/request-confirmation'
 
 
-
-export class AddMainPage implements AppPage {
+export class NoGitFolderPage implements AppPage {
 
   private ref = -1
 
@@ -22,17 +21,17 @@ export class AddMainPage implements AppPage {
 
   options = [
     {
-      name: 'Add all',
+      name: 'Initialize new repository',
       function: {
-        base: 'git add .'
+        base: 'git init'
       }
     }
   ]
 
   pickList = new SelectList(this.t, {
-    text: 'Add:',
+    text: 'Getting started:',
     options: this.options.map(item => item.name),
-    back: 'Cancel',
+    back: 'Quit',
     onChange: (response: SelectListResponse) => {
       const option = this.options[response.index]
       if (this.options[response.index]) {
@@ -60,21 +59,33 @@ export class AddMainPage implements AppPage {
 
     this.t.interactor
     .clear()
-    
+    .write(
+      'Welcome to ' + this.t.interactor.color.blue(this.t.interactor.decorate.bold('AGITA'))
+    )
+    .newLine()
+    .newLine()
+    .write(
+      this.t.interactor.color.red(
+        this.t.interactor.decorate.bold(
+          'No .git folder present!'
+        )
+      )
+    )
+    .newLine()
+    .newLine()
 
     const response = await this.pickList.run()
 
     switch (response.index) {
       case -1: {
+        this.app.popPage()
+        this.app.popPage()
+        // this will cause the program to complete, should write a proper function for this me thinks
         return null
       }
       case 0: {
-        this.t.interactor.clear()
-        if ((await (new RequestConfirmation(this.t, { question: 'Are you sure you want to add everything?'}).run())).confirmed) {
-          await this.app.gitCommand.execute()
-          return null
-        }
-        return this
+        await this.app.gitCommand.execute()
+        return null
       }
     }
 

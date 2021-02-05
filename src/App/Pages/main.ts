@@ -5,6 +5,7 @@ import { SelectList, SelectListResponse } from "../../Terminal/User Interactions
 import { StatusPage } from './status'
 import { Input } from "../../Terminal/User Interactions/input";
 import { AddMainPage } from "./Add";
+import { NoGitFolderPage } from "./No Git Folder";
 
 export class MainPage implements AppPage {
 
@@ -63,8 +64,12 @@ export class MainPage implements AppPage {
 
   async run() : Promise<AppPage | null> {
 
-    await this.app.gitCommand.alwaysUseColor()
+    if (!this.app.gitInfo.gitFolderPresent()) {
+      return new NoGitFolderPage(this.app, this.t)
+    }
 
+    await this.app.gitCommand.alwaysUseColor()
+    
     this.t.interactor
     .clear()
     .write(
@@ -78,24 +83,15 @@ export class MainPage implements AppPage {
     .newLine()
     .newLine()
     .write(
-      'Loaded: ' + this.app.gitInfo.currentDirectory()
+      this.t.interactor.color.yellow(
+        'Loaded: ' + this.app.gitInfo.currentDirectory()
+      )
     )
     .newLine()
     .newLine()
 
     // await (new Input(this.t, {})).run()
     
-    
-
-    if (!this.app.gitInfo.gitFolderPresent()) {
-      console.log('No .git folder present!');
-      console.log();
-
-      // route to page for getting started with git
-      
-    }
-
-
     const response = await this.pickList.run()
 
     switch (response.index) {
