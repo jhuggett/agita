@@ -1,5 +1,5 @@
 import { PressEnterToContinue } from '../../../Terminal/User Interactions/press-enter-to-continue'
-import { AppPage } from ".."
+import { AppPage, showGitCommandForSelectList } from ".."
 import { App } from "../../app"
 import { Terminal } from "../../../Terminal"
 import { SelectList, SelectListResponse } from '../../../Terminal/User Interactions/select-list'
@@ -34,25 +34,7 @@ export class AddMainPage implements AppPage {
     options: this.options.map(item => item.name),
     back: 'Cancel',
     onChange: (response: SelectListResponse) => {
-      const option = this.options[response.index]
-      if (this.options[response.index]) {
-        this.app.gitCommand.push(option.function)
-      }
-
-      if (option) {
-        this.t.interactor
-        .moveCursorToBottom()
-        .clearLine()
-        .write('>>> ' + this.app.gitCommand.command())
-        .moveCursor.moveTo(0, 0)
-      } else {
-        this.t.interactor
-        .moveCursorToBottom()
-        .clearLine()
-        .moveCursor.moveTo(0, 0)
-      }
-
-      
+      showGitCommandForSelectList(response, this.options, this.t, this.app)
     }
   }) 
 
