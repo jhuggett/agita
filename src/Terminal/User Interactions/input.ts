@@ -2,7 +2,7 @@ import { UserInteractionView, UserInteractionResponse, ReactResponse, UserIntera
 import { Terminal } from ".."
 
 export interface InputConfig extends UserInteractionConfig {
-  
+  prompt: string
 }
 
 export interface InputResponse extends UserInteractionResponse {
@@ -74,7 +74,7 @@ export class Input implements UserInteractionView {
   }
 
   moveCursor(x: number, y: number) {
-    console.log(this.cursorLocation);
+    return // for now
     
     const [width, height] = this.t.interactor.widthAndHeight()
 
@@ -98,13 +98,14 @@ export class Input implements UserInteractionView {
   }
 
   removeInput() {
-    this.input
+    this.input = this.input.slice(0, -1)
   }
 
   addInput(char: string) {
 
-    this.input += char
-
+    if (this.input.length + 7 < this.t.interactor.getWidth()) {
+      this.input += char
+    }
   }
 
   async run() : Promise<InputResponse> {
@@ -130,10 +131,15 @@ export class Input implements UserInteractionView {
   render() {
     this.t.interactor
     .restoreCursorSpot()
-    .write('Input: ')
-    .newLine()
+    .clearLine()
+    .write(
+      this.t.interactor.color.blue(
+        this.t.interactor.decorate.bold(
+          this.config.prompt
+        )
+      )
+    )
     .write(this.input)
-    
   }
 
   async react() : Promise<ReactResponse> {

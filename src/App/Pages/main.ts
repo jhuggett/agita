@@ -6,6 +6,7 @@ import { StatusPage } from './status'
 import { Input } from "../../Terminal/User Interactions/input";
 import { AddMainPage } from "./Add";
 import { NoGitFolderPage } from "./No Git Folder";
+import { CommitPage } from './commit'
 
 export class MainPage implements AppPage {
 
@@ -31,6 +32,12 @@ export class MainPage implements AppPage {
       name: 'Add',
       function: {
         base: 'git add'
+      }
+    },
+    {
+      name: 'Commit',
+      function: {
+        base: 'git commit -m'
       }
     }
   ]
@@ -73,8 +80,6 @@ export class MainPage implements AppPage {
     )
     .newLine()
     .newLine()
-
-    // await (new Input(this.t, {})).run()
     
     const response = await this.pickList.run()
 
@@ -87,6 +92,9 @@ export class MainPage implements AppPage {
       }
       case 1: {
         return new AddMainPage(this.app, this.t)
+      }
+      case 2: {
+        return new CommitPage(this.app, this.t)
       }
     }
 
