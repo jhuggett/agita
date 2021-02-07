@@ -7,6 +7,7 @@ import { Input } from "../../Terminal/User Interactions/input";
 import { AddMainPage } from "./Add";
 import { NoGitFolderPage } from "./No Git Folder";
 import { CommitPage } from './commit'
+import { PushPage } from './push'
 
 export class MainPage implements AppPage {
 
@@ -39,6 +40,12 @@ export class MainPage implements AppPage {
       function: {
         base: 'git commit -m'
       }
+    },
+    {
+      name: 'Push',
+      function: {
+        base: 'git push'
+      }
     }
   ]
 
@@ -58,6 +65,9 @@ export class MainPage implements AppPage {
     if (!this.app.gitInfo.gitFolderPresent()) {
       return new NoGitFolderPage(this.app, this.t)
     }
+
+    
+    
 
     await this.app.gitCommand.alwaysUseColor()
     
@@ -80,6 +90,17 @@ export class MainPage implements AppPage {
     )
     .newLine()
     .newLine()
+
+    if (this.app.gitInfo.remotes().length == 0) {
+      this.t.interactor
+      .write(
+        this.t.interactor.color.red(
+          'No remote provided.'
+        )
+      )
+      .newLine()
+      .newLine()
+    }
     
     const response = await this.pickList.run()
 
@@ -95,6 +116,9 @@ export class MainPage implements AppPage {
       }
       case 2: {
         return new CommitPage(this.app, this.t)
+      }
+      case 3: {
+        return new PushPage(this.app, this.t)
       }
     }
 
