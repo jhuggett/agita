@@ -133,7 +133,7 @@ export class Input implements UserInteractionView {
     .restoreCursorSpot()
     .clearLine()
     .write(
-      this.t.interactor.color.blue(
+      this.t.interactor.color.green(
         this.t.interactor.decorate.bold(
           this.config.prompt
         )

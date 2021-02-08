@@ -7,7 +7,7 @@ import { throws } from 'assert'
 
 
 
-export class CommitPage implements AppPage {
+export class NewBranchPage implements AppPage {
 
   private ref = -1
 
@@ -18,6 +18,7 @@ export class CommitPage implements AppPage {
   setRef(ref: number) {
     this.ref = ref
   }
+
   constructor (private app: App, private t: Terminal) {}
 
   async run() : Promise<AppPage | null> {
@@ -25,7 +26,7 @@ export class CommitPage implements AppPage {
     this.t.interactor
     .clear()
     
-    const response = await (new Input(this.t, { prompt: 'Commit message: ' })).run()
+    const response = await (new Input(this.t, { prompt: 'Name for new branch: ' })).run()
     
     if (response.input == '') {
       this.t.interactor
@@ -33,7 +34,7 @@ export class CommitPage implements AppPage {
       .write(
         this.t.interactor.color.red(
           this.t.interactor.decorate.bold(
-            'No message provided! So the commit didn\'t go through.'
+            'No name provided! So no branch was created.'
           )
         )
       ).newLine().newLine()
@@ -41,7 +42,7 @@ export class CommitPage implements AppPage {
       await (new PressEnterToContinue(this.t)).run()
     } else {
       this.app.gitCommand.push({
-        addition: ` '${response.input}'`
+        addition: ` ${response.input}`
       })
       await this.app.gitCommand.execute()
       this.app.gitCommand.clear()
