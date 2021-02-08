@@ -1,4 +1,4 @@
-import { AppPage } from ".";
+import { AppPage, showGitCommandForSelectList } from ".";
 import { App } from "../app";
 import { Terminal } from "../../Terminal";
 import { SelectList, SelectListResponse } from "../../Terminal/User Interactions/select-list";
@@ -6,6 +6,8 @@ import { StatusPage } from './status'
 import { Input } from "../../Terminal/User Interactions/input";
 import { AddMainPage } from "./Add";
 import { NoGitFolderPage } from "./No Git Folder";
+import { CommitPage } from './commit'
+import { PushPage } from './push'
 
 export class MainPage implements AppPage {
 
@@ -32,6 +34,18 @@ export class MainPage implements AppPage {
       function: {
         base: 'git add'
       }
+    },
+    {
+      name: 'Commit',
+      function: {
+        base: 'git commit -m'
+      }
+    },
+    {
+      name: 'Push',
+      function: {
+        base: 'git push'
+      }
     }
   ]
 
@@ -40,23 +54,7 @@ export class MainPage implements AppPage {
     options: this.options.map(item => item.name),
     back: 'Quit',
     onChange: (response: SelectListResponse) => {
-      const option = this.options[response.index]
-      if (this.options[response.index]) {
-        this.app.gitCommand.push(option.function)
-      }
-
-      if (option) {
-        this.t.interactor
-        .moveCursorToBottom()
-        .clearLine()
-        .write('>>> ' + this.app.gitCommand.command())
-        .moveCursor.moveTo(0, 0)
-      } else {
-        this.t.interactor
-        .moveCursorToBottom()
-        .clearLine()
-        .moveCursor.moveTo(0, 0)
-      }
+      showGitCommandForSelectList(response, this.options, this.t, this.app)
     }
   }) 
   
@@ -67,6 +65,9 @@ export class MainPage implements AppPage {
     if (!this.app.gitInfo.gitFolderPresent()) {
       return new NoGitFolderPage(this.app, this.t)
     }
+
+    
+    
 
     await this.app.gitCommand.alwaysUseColor()
     
@@ -90,7 +91,16 @@ export class MainPage implements AppPage {
     .newLine()
     .newLine()
 
-    // await (new Input(this.t, {})).run()
+    if (this.app.gitInfo.remotes().length == 0) {
+      this.t.interactor
+      .write(
+        this.t.interactor.color.red(
+          'No remote provided.'
+        )
+      )
+      .newLine()
+      .newLine()
+    }
     
     const response = await this.pickList.run()
 
@@ -103,6 +113,12 @@ export class MainPage implements AppPage {
       }
       case 1: {
         return new AddMainPage(this.app, this.t)
+      }
+      case 2: {
+        return new CommitPage(this.app, this.t)
+      }
+      case 3: {
+        return new PushPage(this.app, this.t)
       }
     }
 
