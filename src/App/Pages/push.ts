@@ -35,7 +35,6 @@ export class PushPage implements AppPage {
     options: [],
     back: 'Cancel',
     onChange: (response: SelectListResponse) => {
-      showGitCommandForSelectList(response, this.remoteOptions, this.t, this.app)
     }
   }) 
 
@@ -44,13 +43,15 @@ export class PushPage implements AppPage {
     options: [],
     back: 'Back',
     onChange: (response: SelectListResponse) => {
-      showGitCommandForSelectList(response, this.branchOptions, this.t, this.app)
     }
   }) 
 
   setOptions( newOptions: Option[], forOptions: Option[], pickList: SelectList) {
     forOptions = newOptions
     pickList.config.options = [...newOptions.map( option => option.name ), pickList.config.back] 
+    pickList.config.onChange = (response: SelectListResponse) => {
+      showGitCommandForSelectList(response, forOptions, this.t, this.app)
+    }
   }
 
   
@@ -92,6 +93,7 @@ export class PushPage implements AppPage {
 
       this.t.interactor.clear()
       .write(commandData.stdout)
+      .write(commandData.stderr)
 
       await (new PressEnterToContinue(this.t)).run()
     }

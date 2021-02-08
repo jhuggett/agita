@@ -16,11 +16,7 @@ import { MainPage } from "./App/Pages/main";
 
   t.interactor
   .clear()
-  .write(
-    t.interactor.color.yellow(
-      'Goodbye...'
-    )
-  )
+  
   .showCaret()
 })()
 
