@@ -84,14 +84,14 @@ export class PushPage implements AppPage {
       this.t.interactor.clear()
 
       const branchResponse = await this.branchPickList.run()
-
+      this.t.interactor.clear()
       if (branchResponse.index == -1) {
         return this // goes back to picking remote
       }
 
       const commandData = await this.app.gitCommand.execute()
 
-      this.t.interactor.clear()
+      this.t.interactor
       .write(commandData.stdout)
       .write(commandData.stderr)
 
