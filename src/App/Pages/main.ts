@@ -85,9 +85,17 @@ export class MainPage implements AppPage {
     .newLine()
     .write(
       this.t.interactor.color.yellow(
-        'Loaded: ' + this.app.gitInfo.currentDirectory()
+        'Repository: '
       )
     )
+    .write(this.app.gitInfo.currentDirectory().split('/').pop())
+    .newLine()
+    .write(
+      this.t.interactor.color.yellow(
+        'Current branch: '
+      )
+    )
+    .write(this.app.gitInfo.currentBranch())
     .newLine()
     .newLine()
 
