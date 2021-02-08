@@ -90,6 +90,7 @@ export class PushPage implements AppPage {
       }
 
       const commandData = await this.app.gitCommand.execute()
+      this.t.interactor.clear()
 
       this.t.interactor
       .write(commandData.stdout)
