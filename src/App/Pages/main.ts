@@ -8,6 +8,7 @@ import { AddMainPage } from "./Add";
 import { NoGitFolderPage } from "./No Git Folder";
 import { CommitPage } from './commit'
 import { PushPage } from './push'
+import { NewBranchPage } from "./new-branch";
 
 export class MainPage implements AppPage {
 
@@ -45,6 +46,12 @@ export class MainPage implements AppPage {
       name: 'Push',
       function: {
         base: 'git push'
+      }
+    },
+    {
+      name: 'New branch',
+      function: {
+        base: 'git checkout -b'
       }
     }
   ]
@@ -127,6 +134,9 @@ export class MainPage implements AppPage {
       }
       case 3: {
         return new PushPage(this.app, this.t)
+      }
+      case 4: {
+        return new NewBranchPage(this.app, this.t)
       }
     }
 
