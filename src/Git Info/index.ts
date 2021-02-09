@@ -8,12 +8,23 @@ export class GitInfo {
     return process.cwd()
   }
 
-  gitFolderPresent() : boolean {
-    return existsSync(this.gitFolderPath())
-  }
+  private pathToGitFolder: string | null = null
 
-  gitFolderPath() : string {
-    return `${this.currentDirectory()}/.git`
+  gitFolderPath() : string | null {
+    if (this.pathToGitFolder) return this.pathToGitFolder
+
+    const pathSteps = this.currentDirectory().split('/')
+
+    while (pathSteps.length > 0) {
+      const path = pathSteps.join('/') + '/.git'
+      if (existsSync(path)) {
+        this.pathToGitFolder = path
+        return path
+      }
+      pathSteps.pop()
+    }
+
+    return
   }
 
   gitFolderPathWithSlash() : string {

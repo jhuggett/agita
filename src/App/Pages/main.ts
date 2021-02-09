@@ -76,7 +76,7 @@ export class MainPage implements AppPage {
 
   async run() : Promise<AppPage | null> {
 
-    if (!this.app.gitInfo.gitFolderPresent()) {
+    if (!this.app.gitInfo.gitFolderPath()) {
       return new NoGitFolderPage(this.app, this.t)
     }
 
@@ -102,7 +102,7 @@ export class MainPage implements AppPage {
         'Repository: '
       )
     )
-    .write(this.app.gitInfo.currentDirectory().split('/').pop())
+    .write(this.app.gitInfo.gitFolderPath().split('/').splice(-2)[0])
     .newLine()
     .write(
       this.t.interactor.color.yellow(
