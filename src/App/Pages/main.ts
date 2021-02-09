@@ -8,6 +8,8 @@ import { AddMainPage } from "./Add";
 import { NoGitFolderPage } from "./No Git Folder";
 import { CommitPage } from './commit'
 import { PushPage } from './push'
+import { NewBranchPage } from "./new-branch";
+import { SwitchBranchPage } from "./switch-branch";
 
 export class MainPage implements AppPage {
 
@@ -46,6 +48,18 @@ export class MainPage implements AppPage {
       function: {
         base: 'git push'
       }
+    },
+    {
+      name: 'New branch',
+      function: {
+        base: 'git checkout -b'
+      }
+    },
+    {
+      name: 'Switch branches',
+      function: {
+        base: 'git checkout'
+      }
     }
   ]
 
@@ -62,7 +76,7 @@ export class MainPage implements AppPage {
 
   async run() : Promise<AppPage | null> {
 
-    if (!this.app.gitInfo.gitFolderPresent()) {
+    if (!this.app.gitInfo.gitFolderPath()) {
       return new NoGitFolderPage(this.app, this.t)
     }
 
@@ -85,9 +99,17 @@ export class MainPage implements AppPage {
     .newLine()
     .write(
       this.t.interactor.color.yellow(
-        'Loaded: ' + this.app.gitInfo.currentDirectory()
+        'Repository: '
       )
     )
+    .write(this.app.gitInfo.gitFolderPath().split('/').splice(-2)[0])
+    .newLine()
+    .write(
+      this.t.interactor.color.yellow(
+        'Current branch: '
+      )
+    )
+    .write(this.app.gitInfo.currentBranch())
     .newLine()
     .newLine()
 
@@ -119,6 +141,12 @@ export class MainPage implements AppPage {
       }
       case 3: {
         return new PushPage(this.app, this.t)
+      }
+      case 4: {
+        return new NewBranchPage(this.app, this.t)
+      }
+      case 5: {
+        return new SwitchBranchPage(this.app, this.t)
       }
     }
 
