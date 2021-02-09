@@ -111,14 +111,14 @@ export class SelectList implements UserInteractionView {
         .write(
           this.t.interactor.color.green(
             this.t.interactor.decorate.bold(
-              (this.config.back == option ? '<-- ' : '--> ') + option
+              (this.config.back == option ? '<- ' : '-> ') + option
             )
           )
         ).newLine()
       } else {
         this.t.interactor.clearLine()
         .write(
-          '    ' + option
+          '   ' + option
         ).newLine()
       }
     })
