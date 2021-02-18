@@ -12,7 +12,6 @@ import { NewBranchPage } from "./new-branch";
 import { SwitchBranchPage } from "./switch-branch";
 import { SelectTree, SelectTreeBranch } from "../../Terminal/User Interactions/select-tree";
 import { PullPage } from "./pull";
-import { FetchPage } from "./fetch";
 
 export class MainPage implements AppPage {
 
