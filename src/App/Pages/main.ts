@@ -11,6 +11,8 @@ import { PushPage } from './push'
 import { NewBranchPage } from "./new-branch";
 import { SwitchBranchPage } from "./switch-branch";
 import { SelectTree, SelectTreeBranch } from "../../Terminal/User Interactions/select-tree";
+import { PullPage } from "./pull";
+import { FetchPage } from "./fetch";
 
 export class MainPage implements AppPage {
 
@@ -48,6 +50,12 @@ export class MainPage implements AppPage {
       name: 'Push',
       function: {
         base: 'git push'
+      }
+    },
+    {
+      name: 'Pull',
+      function: {
+        base: 'git pull'
       }
     },
     {
@@ -147,9 +155,15 @@ export class MainPage implements AppPage {
         return new PushPage(this.app, this.t)
       }
       case 4: {
-        return new NewBranchPage(this.app, this.t)
+        return new PullPage(this.app, this.t)
       }
       case 5: {
+        return new FetchPage(this.app, this.t)
+      }
+      case 6: {
+        return new NewBranchPage(this.app, this.t)
+      }
+      case 7: {
         return new SwitchBranchPage(this.app, this.t)
       }
     }
