@@ -158,12 +158,9 @@ export class MainPage implements AppPage {
         return new PullPage(this.app, this.t)
       }
       case 5: {
-        return new FetchPage(this.app, this.t)
-      }
-      case 6: {
         return new NewBranchPage(this.app, this.t)
       }
-      case 7: {
+      case 6: {
         return new SwitchBranchPage(this.app, this.t)
       }
     }
