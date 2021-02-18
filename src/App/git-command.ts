@@ -41,8 +41,13 @@ export class GitCommand {
     return this
   }
 
-  async alwaysUseColor() {
-    await this.push({ base: 'git config color.ui always --replace-all' }).execute()
+  async useColor() {
+    await this.push({ base: 'git config color.ui always' }).execute()
+    this.clear()
+  }
+
+  async disableColor() {
+    await this.push({ base: 'git config color.ui auto' }).execute()
     this.clear()
   }
 

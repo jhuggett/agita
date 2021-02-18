@@ -4,6 +4,7 @@ import { App } from "../../app"
 import { Terminal } from "../../../Terminal"
 import { SelectList, SelectListResponse } from '../../../Terminal/User Interactions/select-list'
 import { RequestConfirmation } from '../../../Terminal/User Interactions/request-confirmation'
+import { SelectiveAddPage } from './selective'
 
 
 
@@ -25,6 +26,12 @@ export class AddMainPage implements AppPage {
       name: 'Add all',
       function: {
         base: 'git add .'
+      }
+    },
+    {
+      name: 'Add selectively',
+      function: {
+        base: 'git add'
       }
     }
   ]
@@ -57,6 +64,9 @@ export class AddMainPage implements AppPage {
           return null
         }
         return this
+      }
+      case 1: {
+        return new SelectiveAddPage(this.app, this.t)
       }
     }
 

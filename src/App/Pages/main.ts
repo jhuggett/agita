@@ -10,6 +10,7 @@ import { CommitPage } from './commit'
 import { PushPage } from './push'
 import { NewBranchPage } from "./new-branch";
 import { SwitchBranchPage } from "./switch-branch";
+import { SelectTree, SelectTreeBranch } from "../../Terminal/User Interactions/select-tree";
 
 export class MainPage implements AppPage {
 
@@ -83,7 +84,9 @@ export class MainPage implements AppPage {
     
     
 
-    await this.app.gitCommand.alwaysUseColor()
+    await this.app.gitCommand.useColor()
+
+    this.t.interactor.clear()
     
     this.t.interactor
     .clear()
@@ -128,6 +131,7 @@ export class MainPage implements AppPage {
 
     switch (response.index) {
       case -1: {
+        await this.app.gitCommand.disableColor()
         return null
       }
       case 0: {
