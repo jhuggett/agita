@@ -58,13 +58,14 @@ export class SelectTree implements UserInteractionView {
         },
         67: { // right
           action: () => {
+
+            if (this.current.line == -1) return true 
+
             if (this.current.branch.selected && this.current.branch.sub) return false
+            if (!this.current.branch.sub) {
+              this.current.branch.selected = !this.current.branch.selected
+            }
             this.current.branch.open = !this.current.branch.open
-            // if (this.current.branch.sub && this.current.branch.open) {
-            //   this.current.branch = this.current.branch.sub[0]
-            //   this.numberOfLines(this.config.tree)
-            //   this.current.line = this.getLineForBranch(this.current.branch)
-            // }
 
             return false
           }
