@@ -22,3 +22,6 @@ Run `agita` in a directory linked to a git repository.
 - Pull
 - New Branch
 - Switch Branches
+
+If you run into any issues please file them in the repository below:
+Github Repo URL: https://github.com/jhuggett/agita
