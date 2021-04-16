@@ -3,15 +3,13 @@ import { App } from "../app";
 import { Terminal } from "../../Terminal";
 import { SelectList, SelectListResponse } from "../../Terminal/User Interactions/select-list";
 import { StatusPage } from './status'
-import { Input } from "../../Terminal/User Interactions/input";
 import { AddMainPage } from "./Add";
 import { NoGitFolderPage } from "./No Git Folder";
-import { CommitPage } from './commit'
 import { PushPage } from './push'
 import { NewBranchPage } from "./new-branch";
 import { SwitchBranchPage } from "./switch-branch";
-import { SelectTree, SelectTreeBranch } from "../../Terminal/User Interactions/select-tree";
 import { PullPage } from "./pull";
+import { CommitPrefixPage } from "./commit/commit-prefix";
 
 export class MainPage implements AppPage {
 
@@ -148,7 +146,7 @@ export class MainPage implements AppPage {
         return new AddMainPage(this.app, this.t)
       }
       case 2: {
-        return new CommitPage(this.app, this.t)
+        return new CommitPrefixPage(this.app, this.t)
       }
       case 3: {
         return new PushPage(this.app, this.t)

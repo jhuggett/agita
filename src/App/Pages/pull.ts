@@ -6,7 +6,7 @@ import { StatusPage } from './status'
 import { Input } from "../../Terminal/User Interactions/input";
 import { AddMainPage } from "./Add";
 import { NoGitFolderPage } from "./No Git Folder";
-import { CommitPage } from './commit'
+import { CommitPage } from './commit/commit'
 import { PressEnterToContinue } from "../../Terminal/User Interactions/press-enter-to-continue";
 
 interface Option {

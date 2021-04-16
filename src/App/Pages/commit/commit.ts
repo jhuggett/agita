@@ -1,8 +1,8 @@
-import { PressEnterToContinue } from '../../Terminal/User Interactions/press-enter-to-continue'
-import { AppPage } from "../../App/Pages"
-import { App } from "../../App/app"
-import { Terminal } from "../../Terminal"
-import { Input } from '../../Terminal/User Interactions/input'
+import { PressEnterToContinue } from '../../../Terminal/User Interactions/press-enter-to-continue'
+import { AppPage } from ".."
+import { App } from "../../app"
+import { Terminal } from "../../../Terminal"
+import { Input } from '../../../Terminal/User Interactions/input'
 import { throws } from 'assert'
 
 
@@ -41,7 +41,7 @@ export class CommitPage implements AppPage {
       await (new PressEnterToContinue(this.t)).run()
     } else {
       this.app.gitCommand.push({
-        addition: ` '${response.input}'`
+        addition: `${response.input}'`
       })
       await this.app.gitCommand.execute()
       this.app.gitCommand.clear()
