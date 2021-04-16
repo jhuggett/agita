@@ -47,6 +47,7 @@ export class CommitPage implements AppPage {
       this.app.gitCommand.clear()
     }
 
+    this.app.popPage()
     return null
   }
 }
