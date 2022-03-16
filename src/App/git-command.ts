@@ -16,7 +16,7 @@ export class GitCommand {
   private commandSections: string[] = []
 
   command() : string {
-    return this.commandSections.join('')
+    return this.commandSections.join("")
   }
 
   clear() : GitCommand {
@@ -42,12 +42,12 @@ export class GitCommand {
   }
 
   async useColor() {
-    await this.push({ base: 'git config color.ui always' }).execute()
+    await this.push({ base: "git config color.ui always" }).execute()
     this.clear()
   }
 
   async disableColor() {
-    await this.push({ base: 'git config color.ui auto' }).execute()
+    await this.push({ base: "git config color.ui auto" }).execute()
     this.clear()
   }
 

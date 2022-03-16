@@ -5,7 +5,6 @@ import { App } from "./App/app";
 import { MainPage } from "./App/Pages/main";
 
 
-
 (async () => {
   const app = new App()
   const t = new Terminal()
