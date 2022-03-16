@@ -7,6 +7,9 @@
   "bin": {
     "agita": "./bin/index.js"
   },
+  "scripts": {
+    "dev": "tsc && node ."
+  },
   "devDependencies": {
     "@types/node": "^14.0.25",
     "typescript": "^3.9.7"
