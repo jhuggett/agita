@@ -52,7 +52,13 @@ export class Input implements UserInteractionView {
         }
       }
     }, 
-    127: { // backspace
+    127: { // delete
+      action: () => {
+        this.removeInput()
+        return false
+      }
+    },
+    8: { // backspace, windows doesn't recognize 127 it seems ¯\_(ツ)_/¯
       action: () => {
         this.removeInput()
         return false
