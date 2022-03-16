@@ -12,13 +12,20 @@ export class Interactions {
     decorate = new Decorate()
     moveCursor = new CursorMovement(this.t)
 
+    setRawMode(toggle: boolean) {
+        if (process.stdin.isTTY) {
+            process.stdin.setRawMode(toggle);
+        }
+    }
+
     reactToKeyPress = async (callback?: (code: Buffer) => boolean) : Promise<Buffer> => {
-    process.stdin.setRawMode(true)
+   
+    this.setRawMode(true)
     process.stdin.resume()
 
     return new Promise( (resolve) => {
         return process.stdin.once('data', (data) => {
-            process.stdin.setRawMode(false)
+            this.setRawMode(false)
             process.stdin.pause()
             if (callback && callback(data)) {
                 this.reactToKeyPress(callback)
