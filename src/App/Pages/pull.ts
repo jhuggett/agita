@@ -61,7 +61,6 @@ export class PullPage implements AppPage {
 
     const remotes: string[] = this.app.gitInfo.remotes()
 
-
     if (remotes.length == 0) {
       // should return page to set remote
       return null

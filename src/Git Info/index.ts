@@ -1,5 +1,5 @@
 import { existsSync, readdirSync, readFileSync } from 'fs'
-
+import path = require('path')
 
 
 export class GitInfo {
@@ -13,29 +13,21 @@ export class GitInfo {
   gitFolderPath() : string | null {
     if (this.pathToGitFolder) return this.pathToGitFolder
 
-    const pathSteps = this.currentDirectory().split('/')
-
-    while (pathSteps.length > 0) {
-      const path = pathSteps.join('/') + '/.git'
-      if (existsSync(path)) {
-        this.pathToGitFolder = path
-        return path
+    let current = path.parse(this.currentDirectory())
+    while (current.dir && current.dir != current.root) {
+      const testPath = path.join(current.dir, current.base, ".git")
+      if (existsSync(testPath)) {
+        this.pathToGitFolder = testPath
+        return testPath
       }
-      pathSteps.pop()
     }
-
-    return
   }
-
-  gitFolderPathWithSlash() : string {
-    return this.gitFolderPath() + '/'
-  }
-
 
   branches() : string[] {
+    
     try {
-      return readdirSync(this.gitFolderPathWithSlash() + 'refs/heads/', { withFileTypes: true })
-      .map( file => file.name )
+      const fullPath = path.join(this.gitFolderPath(), "refs", "heads")
+      return readdirSync(fullPath)
     } catch (error) {
       return []
     }
@@ -50,20 +42,18 @@ export class GitInfo {
 
   currentBranch() : string | null {
     try {
-      const data = readFileSync(this.gitFolderPathWithSlash() + 'HEAD', 'utf8')
-
+      const fullPath = path.join(this.gitFolderPath(), "HEAD")
+      const data = readFileSync(fullPath, 'utf8')
       return data.split('/').pop().trim()
     } catch (error) {
-      
-      return null // no found
+      return null // not found
     }
   }
 
   remotes() : string[] {
     try {
-      return readdirSync(this.gitFolderPathWithSlash() + 'refs/remotes/', { withFileTypes: true })
-      .filter( file => file.isDirectory() )
-      .map( dir => dir.name )
+      const fullPath = path.join(this.gitFolderPath(), "refs", "remotes")
+      return readdirSync(fullPath)
     } catch (error) {
       return []
     }

@@ -1,9 +1,9 @@
-import { PressEnterToContinue } from '../../../Terminal/User Interactions/press-enter-to-continue'
+import { PressEnterToContinue } from "../../../Terminal/User Interactions/press-enter-to-continue"
 import { AppPage } from ".."
 import { App } from "../../app"
 import { Terminal } from "../../../Terminal"
-import { Input } from '../../../Terminal/User Interactions/input'
-import { throws } from 'assert'
+import { Input } from "../../../Terminal/User Interactions/input"
+import { throws } from "assert"
 
 
 
@@ -25,15 +25,15 @@ export class CommitPage implements AppPage {
     this.t.interactor
     .clear()
     
-    const response = await (new Input(this.t, { prompt: 'Commit message: ' })).run()
+    const response = await (new Input(this.t, { prompt: "Commit message: " })).run()
     
-    if (response.input == '') {
+    if (response.input == "") {
       this.t.interactor
       .clear()
       .write(
         this.t.interactor.color.red(
           this.t.interactor.decorate.bold(
-            'No message provided! So the commit didn\'t go through.'
+            "No message provided! So the commit didn\"t go through."
           )
         )
       ).newLine().newLine()
@@ -41,7 +41,7 @@ export class CommitPage implements AppPage {
       await (new PressEnterToContinue(this.t)).run()
     } else {
       this.app.gitCommand.push({
-        addition: `${response.input}'`
+        addition: `"${response.input}"`
       })
       await this.app.gitCommand.execute()
       this.app.gitCommand.clear()
