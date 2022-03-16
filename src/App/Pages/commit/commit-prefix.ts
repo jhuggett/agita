@@ -1,10 +1,10 @@
 
-import { SelectList, SelectListResponse } from '../../../Terminal/User Interactions/select-list'
-import { showGitCommandForSelectList, AppPage } from '..'
-import { App } from '../../app'
-import { Terminal } from '../../../Terminal'
-import { PressEnterToContinue } from '../../../Terminal/User Interactions/press-enter-to-continue'
-import { CommitPage } from './commit'
+import { SelectList, SelectListResponse } from "../../../Terminal/User Interactions/select-list"
+import { showGitCommandForSelectList, AppPage } from ".."
+import { App } from "../../app"
+import { Terminal } from "../../../Terminal"
+import { PressEnterToContinue } from "../../../Terminal/User Interactions/press-enter-to-continue"
+import { CommitPage } from "./commit"
 
 
 
@@ -14,83 +14,83 @@ export class CommitPrefixPage implements AppPage {
 
   options = [
     {
-      name: 'feature',
+      name: "feature",
       function: {
-        base: 'git commit -m \'feat: '
+        base: "git commit -m \"feat: "
       }
     },
     {
-      name: 'bug fix',
+      name: "bug fix",
       function: {
-        base: 'git commit -m \'fix: '
+        base: "git commit -m \"fix: "
       }
     },
     {
-      name: 'documentation',
+      name: "documentation",
       function: {
-        base: 'git commit -m \'docs: '
+        base: "git commit -m \"docs: "
       }
     },
     {
-      name: 'style',
+      name: "style",
       function: {
-        base: 'git commit -m \'style: '
+        base: "git commit -m \"style: "
       }
     },
     {
-      name: 'refactoring',
+      name: "refactoring",
       function: {
-        base: 'git commit -m \'refactor: '
+        base: "git commit -m \"refactor: "
       }
     },
     {
-      name: 'performance improvement',
+      name: "performance improvement",
       function: {
-        base: 'git commit -m \'perf: '
+        base: "git commit -m \"perf: "
       }
     },
     {
-      name: 'tests',
+      name: "tests",
       function: {
-        base: 'git commit -m \'test: '
+        base: "git commit -m \"test: "
       }
     },
     {
-      name: 'builds',
+      name: "builds",
       function: {
-        base: 'git commit -m \'build: '
+        base: "git commit -m \"build: "
       }
     },
     {
-      name: 'continuous integrations',
+      name: "continuous integrations",
       function: {
-        base: 'git commit -m \'ci: '
+        base: "git commit -m \"ci: "
       }
     },
     {
-      name: 'chore',
+      name: "chore",
       function: {
-        base: 'git commit -m \'chore: '
+        base: "git commit -m \"chore: "
       }
     },
     {
-      name: 'revert',
+      name: "revert",
       function: {
-        base: 'git commit -m \'revert: '
+        base: "git commit -m \"revert: "
       }
     },
     {
-      name: 'none',
+      name: "none",
       function: {
-        base: 'git commit -m \''
+        base: "git commit -m \""
       }
     }
   ]
 
   pickList = new SelectList(this.t, {
-    text: 'Commit Prefix:',
+    text: "Commit Prefix:",
     options: this.options.map(item => item.name),
-    back: 'Cancel',
+    back: "Cancel",
     onChange: (response: SelectListResponse) => {
       showGitCommandForSelectList(response, this.options, this.t, this.app)
     }

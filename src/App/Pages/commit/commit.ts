@@ -41,7 +41,7 @@ export class CommitPage implements AppPage {
       await (new PressEnterToContinue(this.t)).run()
     } else {
       this.app.gitCommand.push({
-        addition: `"${response.input}"`
+        addition: `${response.input}"`
       })
       await this.app.gitCommand.execute()
       this.app.gitCommand.clear()
