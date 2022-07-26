@@ -1,6 +1,36 @@
-import { existsSync, readdirSync, readFileSync } from 'fs'
+import { existsSync, fstatSync, readdirSync, readFileSync, statSync } from 'fs'
 import path = require('path')
 
+type FileSystemNode = File | Directory
+
+interface File {
+  name: string
+}
+
+interface Directory extends File {
+  children: FileSystemNode[]
+}
+
+const isDirectory = (node: FileSystemNode): node is Directory => (node as Directory).children !== undefined 
+
+const recuseFileSystem = (currentPath: string[]) : FileSystemNode => {
+  const resolvedPath = path.join(...currentPath)
+
+  const info = statSync(resolvedPath)
+
+  const name = currentPath[currentPath.length - 1]
+
+  if (info.isDirectory()) {
+    return {
+      name,
+      children: readdirSync(resolvedPath).map(node => recuseFileSystem([...currentPath, node]))
+    }
+  }
+
+  return {
+    name
+  }
+}
 
 export class GitInfo {
 
@@ -24,12 +54,29 @@ export class GitInfo {
   }
 
   branches() : string[] {
-    
     try {
       const fullPath = path.join(this.gitFolderPath(), "refs", "heads")
-      return readdirSync(fullPath)
+      
+      let currentDir = recuseFileSystem([fullPath])
+      
+      if (!isDirectory(currentDir)) throw new Error("No Branches!")
+      
+      const getBranches = (node: FileSystemNode, prefixes: string[] = []): string[] => {
+        if (!isDirectory(node)) {
+          return [prefixes.join('/')]
+        }
+        let branches = []
+        for (const child of node.children) {
+          branches = [...branches, ...getBranches(child, [...prefixes, child.name])]
+        }
+        return branches
+      }
+
+      let branches: string[] = getBranches(currentDir)
+      
+      return branches
     } catch (error) {
-      return []
+      throw error
     }
   }
 
@@ -44,7 +91,7 @@ export class GitInfo {
     try {
       const fullPath = path.join(this.gitFolderPath(), "HEAD")
       const data = readFileSync(fullPath, 'utf8')
-      return data.split('/').pop().trim()
+      return data.split('refs/heads/').pop().trim()
     } catch (error) {
       return null // not found
     }
