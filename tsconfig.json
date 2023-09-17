@@ -2,14 +2,16 @@
   "moduleResolution": "node",
   "target": "es6",
   "module": "commonjs",
-  "include": ["src/**/*"],
+  "include": ["./src/**/*"],
   "exclude": ["node_modules", "build", "src/**/*.test.ts"],
   "esModuleInterop": true,
   "allowSyntheticDefaultImports": true,
   "compilerOptions": {
-      "outDir": "bin",
-      "resolveJsonModule": true,
-      "noImplicitUseStrict": true,
-      "downlevelIteration": true
+    "outDir": "bin",
+    "resolveJsonModule": true,
+    "noImplicitUseStrict": true,
+    "downlevelIteration": true,
+    "target": "es5",
+    "rootDir": "./src"
   }
 }

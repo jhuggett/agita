@@ -1,6 +1,3 @@
-
-
-
 export interface UserInteractionView {
   config: UserInteractionConfig;
   run: () => Promise<UserInteractionResponse>;
@@ -8,15 +5,11 @@ export interface UserInteractionView {
   react: () => Promise<ReactResponse>;
 }
 
-export interface UserInteractionConfig {
+export interface UserInteractionConfig {}
 
-}
-
-export interface UserInteractionResponse {
-
-}
+export interface UserInteractionResponse {}
 
 export interface ReactResponse {
-  finished: boolean
-  rerender: boolean
+  finished: boolean;
+  rerender: boolean;
 }
